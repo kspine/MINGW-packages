@@ -12,7 +12,7 @@ conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-libs"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-git"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-libs-git")
-pkgver=r146458.c7b9149
+pkgver=r146635.89939b5
 pkgrel=1
 pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 with MCF thread model"
 depends=("${MINGW_PACKAGE_PREFIX}-binutils"
@@ -49,7 +49,7 @@ options=('staticlibs' '!emptydirs' '!strip') # 'debug'
 _branch=gcc-6-branch
 # TODO :: Automate this somehow?
 if [ "${_branch}" = "gcc-6-branch" ]; then
-  _realpkgver=6.2.1
+  _realpkgver=6.3.1
 else
   _realpkgver=5.4.1
 fi
