@@ -4,7 +4,7 @@ _realname=mcfgthread
 pkgbase=mingw-w64-${_realname}
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}"
          "${MINGW_PACKAGE_PREFIX}-${_realname}"-libs)
-pkgver=r241.871a5d9
+pkgver=r249.cd0160e
 pkgrel=1
 pkgdesc="An efficient Gthread implementation for GCC MinGW-w64 targets on Windows, providing both C11 and C++11 thread support"
 arch=('any')
@@ -42,6 +42,7 @@ build() {
 
   make
 
+  rm -rf "${srcdir}${MINGW_PREFIX}"
   make -j1 DESTDIR=${srcdir} install
 }
 
