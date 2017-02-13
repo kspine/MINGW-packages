@@ -5,8 +5,7 @@
 
 _realname=gcc
 pkgbase=mingw-w64-${_realname}-mcf
-pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}-mcf"
-         "${MINGW_PACKAGE_PREFIX}-${_realname}-mcf-libs")
+pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}-mcf")
 provides=("${MINGW_PACKAGE_PREFIX}-${_realname}=${pkgver}"
           "${MINGW_PACKAGE_PREFIX}-${_realname}-libs=${pkgver}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}"
@@ -208,13 +207,10 @@ build() {
   fi
 
   make all
-
-  rm -rf "${srcdir}${MINGW_PREFIX}"
-  make -j1 DESTDIR=${srcdir} install
 }
 
 package_mingw-w64-gcc-mcf() {
-  pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 with MCF thread model (devel)"
+  pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 with MCF thread model"
   depends=("${MINGW_PACKAGE_PREFIX}-binutils"
            "${MINGW_PACKAGE_PREFIX}-crt"
            "${MINGW_PACKAGE_PREFIX}-headers"
@@ -228,22 +224,10 @@ package_mingw-w64-gcc-mcf() {
   conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}"
              "${MINGW_PACKAGE_PREFIX}-${_realname}-git")
 
-  mkdir -p "${pkgdir}${MINGW_PREFIX}"
-  cd "${srcdir}${MINGW_PREFIX}"
-  cp -RT include         "${pkgdir}${MINGW_PREFIX}/include"
-  cp -RT lib             "${pkgdir}${MINGW_PREFIX}/lib"
-}
-package_mingw-w64-gcc-mcf-libs() {
-  pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 with MCF thread model (libs)"
-  depends=("${MINGW_PACKAGE_PREFIX}-gmp"
-           "${MINGW_PACKAGE_PREFIX}-libwinpthread")
-  provides=("${MINGW_PACKAGE_PREFIX}-${_realname}-libs")
-  conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}-libs"
-             "${MINGW_PACKAGE_PREFIX}-${_realname}-libs-git")
+  cd ${srcdir}/build-${MINGW_CHOST}
 
-  mkdir -p "${pkgdir}${MINGW_PREFIX}"
-  cd "${srcdir}${MINGW_PREFIX}"
-  cp -RT bin             "${pkgdir}${MINGW_PREFIX}/bin"
+  rm -rf ${pkgdir}${MINGW_PREFIX}
+  make -j1 DESTDIR=${pkgdir} install
 }
 
 # Wrappers for package functions
@@ -252,14 +236,8 @@ package_mingw-w64-gcc-mcf-libs() {
 package_mingw-w64-i686-gcc-mcf() {
   package_mingw-w64-gcc-mcf
 }
-package_mingw-w64-i686-gcc-mcf-libs() {
-  package_mingw-w64-gcc-mcf-libs
-}
 
 # 64-bit wrappers
 package_mingw-w64-x86_64-gcc-mcf() {
   package_mingw-w64-gcc-mcf
-}
-package_mingw-w64-x86_64-gcc-mcf-libs() {
-  package_mingw-w64-gcc-mcf-libs
 }
