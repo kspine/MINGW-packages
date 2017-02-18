@@ -13,7 +13,7 @@ conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-libs"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-git"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-libs-git")
-pkgver=r146635.89939b5
+pkgver=r146802.053082de7ff
 pkgrel=1
 pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 with MCF thread model"
 depends=("${MINGW_PACKAGE_PREFIX}-binutils"
