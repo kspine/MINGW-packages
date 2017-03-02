@@ -4,7 +4,7 @@ _realname=qtwebkit
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
 pkgver=tp5
-pkgrel=2
+pkgrel=3
 pkgdesc="Webkit module for Qt5 (mingw-w64)"
 arch=('any')
 url="https://github.com/annulen/webkit/wiki"
@@ -79,13 +79,15 @@ prepare() {
 
 build() {
 
-  #CFLAGS+=" -Wa,-mbig-obj -mcmodel=medium"
-  #CXXFLAGS+=" -Wa,-mbig-obj -mcmodel=medium"
-
   msg2 "Build debug version ..."
   [[ -d ${srcdir}/build-${MINGW_CHOST}-debug ]] && rm -rf ${srcdir}/build-${MINGW_CHOST}-debug
   mkdir ${srcdir}/build-${MINGW_CHOST}-debug
   cd ${srcdir}/build-${MINGW_CHOST}-debug
+
+  local jit_opt="-DENABLE_JIT=ON"
+  if [ "${CARCH}" = "x86_64" ]; then
+    local jit_opt="-DENABLE_JIT=OFF"
+  fi
 
   MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
   ${MINGW_PREFIX}/bin/cmake \
@@ -93,6 +95,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DCMAKE_BUILD_TYPE=Debug \
     -DPORT=Qt \
+    ${jit_opt} \
     ../${_realname}-${pkgver}
 
   make
@@ -108,6 +111,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DCMAKE_BUILD_TYPE=Release \
     -DPORT=Qt \
+    ${jit_opt} \
     ../${_realname}-${pkgver}
 
   make

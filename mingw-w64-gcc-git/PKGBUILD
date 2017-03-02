@@ -48,12 +48,7 @@ optdepends=()
 options=('staticlibs' '!emptydirs' '!strip') # 'debug'
 #_branch=gcc-5-branch
 _branch=gcc-6-branch
-# TODO :: Automate this somehow?
-if [ "${_branch}" = "gcc-6-branch" ]; then
-  _realpkgver=6.3.1
-else
-  _realpkgver=5.4.1
-fi
+_realpkgver="$(git archive --remote=git://gcc.gnu.org/git/gcc.git refs/heads/${_branch}:gcc/ BASE-VER | tar -xO)"
 
 source=("git://gcc.gnu.org/git/gcc.git#branch=${_branch}"
         "0001-gcc-5-branch-gfortran-incorrect-reading-of-values-fr.patch"
@@ -74,6 +69,7 @@ source=("git://gcc.gnu.org/git/gcc.git#branch=${_branch}"
         "0014-gcc-6-branch-clone_function_name_1-Retain-any-stdcall-suffix.patch"
         "0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch"
         "0016-disable-weak-refs-in-libstdc++.patch"
+        "0017-PR-77333-Set-clone-call-fntype-to-callee-type.patch"
         "9000-gcc-5-branch-Added-mcf-thread-model-support-from-mcfgthread.patch"
         "9000-gcc-6-branch-Added-mcf-thread-model-support-from-mcfgthread.patch"
         "9999-gcc-6-branch-Add-defines-to-disable-optimize-for-size-changes.patch")
@@ -96,6 +92,7 @@ sha256sums=('SKIP'
             '60a58ed41389691a68ef4b7d47a0328df4d28d26e6c680a6b06b31191481ca65'
             '262c6fb0f6c9951d69e4c2dcc27949aa8f2cca8e672faf66740a7dbba4a4cd2c'
             'c1e271c166de0062092cb61d50977c0e61d75b0ae6fb086cb8bb4da2b3fd18d7'
+            '62dccf1e2e85068ee1060af24162c760ca5d76b0d9690efa62fac9d959b6aac6'
             'd8890acd9a8c4f9f4cb1f121b357608bb7512e52364ad5d7ab495b9f8f96dc63'
             '35584a9102449a5f527d48b4fc16c0473ae5a6dfe0fe866149728a5fff712845'
             'a82eadfbb6a182b1ffeb860e89c89f46373a8b891594280b2268ecac8d7bac88')
@@ -110,23 +107,24 @@ pkgver() {
 prepare() {
   cd ${srcdir}/${_realname}
   GIT_AM="git am --committer-date-is-author-date"
-  ${GIT_AM} "${srcdir}"/0001-${_branch}-gfortran-incorrect-reading-of-values-fr.patch || true
-  ${GIT_AM} "${srcdir}"/0002-Relocate-libintl.patch
-  ${GIT_AM} "${srcdir}"/0003-Windows-Follow-Posix-dir-exists-semantics-more-close.patch
-  ${GIT_AM} "${srcdir}"/0004-Windows-Use-not-in-progpath-and-leave-case-as-is.patch
-  ${GIT_AM} "${srcdir}"/0005-Windows-Don-t-ignore-native-system-header-dir.patch
-  ${GIT_AM} "${srcdir}"/0006-${_branch}-Windows-New-feature-to-allow-overriding.patch
-  ${GIT_AM} "${srcdir}"/0007-Build-EXTRA_GNATTOOLS-for-Ada.patch
-  ${GIT_AM} "${srcdir}"/0008-Prettify-linking-no-undefined.patch
-  ${GIT_AM} "${srcdir}"/0009-gcc-make-xmmintrin-header-cplusplus-compatible-depre.patch
-  ${GIT_AM} "${srcdir}"/0010-Fix-using-large-PCH.patch
-  ${GIT_AM} "${srcdir}"/0011-Enable-shared-gnat-implib.patch
+  ${GIT_AM} ${srcdir}/0001-${_branch}-gfortran-incorrect-reading-of-values-fr.patch || true
+  ${GIT_AM} ${srcdir}/0002-Relocate-libintl.patch
+  ${GIT_AM} ${srcdir}/0003-Windows-Follow-Posix-dir-exists-semantics-more-close.patch
+  ${GIT_AM} ${srcdir}/0004-Windows-Use-not-in-progpath-and-leave-case-as-is.patch
+  ${GIT_AM} ${srcdir}/0005-Windows-Don-t-ignore-native-system-header-dir.patch
+  ${GIT_AM} ${srcdir}/0006-${_branch}-Windows-New-feature-to-allow-overriding.patch
+  ${GIT_AM} ${srcdir}/0007-Build-EXTRA_GNATTOOLS-for-Ada.patch
+  ${GIT_AM} ${srcdir}/0008-Prettify-linking-no-undefined.patch
+  ${GIT_AM} ${srcdir}/0009-gcc-make-xmmintrin-header-cplusplus-compatible-depre.patch
+  ${GIT_AM} ${srcdir}/0010-Fix-using-large-PCH.patch
+  ${GIT_AM} ${srcdir}/0011-Enable-shared-gnat-implib.patch
   # it doesn't work at all
   # ${GIT_AM} "${srcdir}"/0012-MinGW-w64-Enable-libitm.patch
   ${GIT_AM} "${srcdir}"/0013-MinGW-w64-Enable-shared-gnat.patch
   ${GIT_AM} "${srcdir}"/0014-${_branch}-clone_function_name_1-Retain-any-stdcall-suffix.patch
   # ${GIT_AM} "${srcdir}"/0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch
   # ${GIT_AM} "${srcdir}"/0016-disable-weak-refs-in-libstdc++.patch
+  ${GIT_AM} ${srcdir}/0017-PR-77333-Set-clone-call-fntype-to-callee-type.patch
   # ${GIT_AM} "${srcdir}"/9999-gcc-6-branch-Add-defines-to-disable-optimize-for-size-changes.patch
   ${GIT_AM} "${srcdir}"/9000-${_branch}-Added-mcf-thread-model-support-from-mcfgthread.patch
 
