@@ -13,7 +13,7 @@ conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-libs"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-git"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-libs-git")
-pkgver=r146807.45bd51aa050
+pkgver=r146831.02659d382dd
 pkgrel=1
 pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 with MCF thread model"
 depends=("${MINGW_PACKAGE_PREFIX}-binutils"
@@ -125,8 +125,8 @@ prepare() {
   # ${GIT_AM} "${srcdir}"/0012-MinGW-w64-Enable-libitm.patch
   ${GIT_AM} "${srcdir}"/0013-MinGW-w64-Enable-shared-gnat.patch
   ${GIT_AM} "${srcdir}"/0014-${_branch}-clone_function_name_1-Retain-any-stdcall-suffix.patch
-#  ${GIT_AM} "${srcdir}"/0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch
-  ${GIT_AM} "${srcdir}"/0016-disable-weak-refs-in-libstdc++.patch
+  # ${GIT_AM} "${srcdir}"/0015-Force-linking-to-libgcc_s_dw2-1.dll-deprecated.patch
+  # ${GIT_AM} "${srcdir}"/0016-disable-weak-refs-in-libstdc++.patch
   # ${GIT_AM} "${srcdir}"/9999-gcc-6-branch-Add-defines-to-disable-optimize-for-size-changes.patch
   ${GIT_AM} "${srcdir}"/9000-${_branch}-Added-mcf-thread-model-support-from-mcfgthread.patch
 
