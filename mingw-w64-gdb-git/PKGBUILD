@@ -5,7 +5,7 @@ _realname=gdb
 _gcc_ver=$(gcc -v 2>&1 | grep "^gcc version" | head -n1 | cut -c 13- | sed -r "s/\\s.*$//")
 pkgbase=mingw-w64-${_realname}
 _base_ver=7.12
-pkgver=r89791.e59a4fb3fc
+pkgver=r89793.c71f96f934
 pkgname=("${MINGW_PACKAGE_PREFIX}-${_realname}-git")
 replaces=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 provides=("${MINGW_PACKAGE_PREFIX}-${_realname}=${pkgver}")

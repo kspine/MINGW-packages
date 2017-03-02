@@ -13,7 +13,7 @@ conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-libs"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-git"
            "${MINGW_PACKAGE_PREFIX}-${_realname}-libs-git")
-pkgver=r146831.02659d382dd
+pkgver=r146832.a5aa4530ea8
 pkgrel=1
 pkgdesc="GNU Compiler Collection (C,C++,OpenMP) for MinGW-w64 with MCF thread model"
 depends=("${MINGW_PACKAGE_PREFIX}-binutils"
@@ -246,6 +246,7 @@ package_mingw-w64-gcc-mcf-libs() {
   cd "${srcdir}${MINGW_PREFIX}"
   _files_cp="$(find bin -type f -and -name "*.dll")"
   [[ -z "${_files_cp}" ]] || cp --parents -r ${_files_cp} --target-directory="${pkgdir}${MINGW_PREFIX}"
+  cp --parents -r share     --target-directory="${pkgdir}${MINGW_PREFIX}"
 }
 
 # Wrappers for package functions
